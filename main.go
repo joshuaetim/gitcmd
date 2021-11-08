@@ -2,13 +2,13 @@ package main
 
 import (
 	"fmt"
-	"gopl/ch4/gitcmd/cli"
+	// "gopl/ch4/gitcmd/cli"
 	"log"
 	"os"
 )
 
 func main() {
-	token := cli.CheckCreds()
+	token := CheckCreds()
 
 	if len(os.Args) < 2 {
 		log.Fatal("You must use a subcommand")
@@ -27,6 +27,6 @@ func main() {
 	}
 }
 
-func displayIssue(result *cli.Issue) {
+func displayIssue(result *Issue) {
 	fmt.Printf("Number:\t%d\nURL:\t%s\nTitle:\t%s\nBody:\t%s\nUser:\t%s\nState:\t%s\nCreated At:\t%s\nUpdated At:\t%s\n", result.Number, result.HTMLURL, result.Title, result.Body, result.User.Login, result.State, result.CreatedAt, result.UpdatedAt)
 }

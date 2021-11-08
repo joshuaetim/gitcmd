@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"gopl/ch4/gitcmd/cli"
+	// "gopl/ch4/gitcmd/cli"
 	"log"
 	"os"
 )
@@ -26,7 +26,7 @@ func updateIssue(number int, title, body, state, token string) {
 	var data map[string]string
 
 	if editor != "" {
-		result, err := cli.Retrieve(number, repo)
+		result, err := Retrieve(number, repo)
 		if err != nil {
 			log.Fatal("Error in retrieving: ", err)
 		}
@@ -44,7 +44,7 @@ func updateIssue(number int, title, body, state, token string) {
 		if state != "" { data["state"] = state }
 	}
 
-	result, err := cli.Update(number, repo, data, token)
+	result, err := Update(number, repo, data, token)
 	if err != nil {
 		log.Fatal("Error in updating: ", err)
 	}

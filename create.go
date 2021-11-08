@@ -1,4 +1,4 @@
-package cli
+package main
 
 import (
 	"bytes"
@@ -10,11 +10,11 @@ import (
 	"time"
 )
 
-func Update(number int, repo string, data map[string]string, token string) (*Issue, error) {
+func Create(repo string, data map[string]string, token string) (*Issue, error) {
 	if repo == "" {
 		return nil, errors.New("the repository field is required")
 	}
-	
+
 	client := &http.Client{
 		Timeout: time.Second * 5,
 	}
@@ -24,9 +24,9 @@ func Update(number int, repo string, data map[string]string, token string) (*Iss
 		return nil, fmt.Errorf("%v", err)
 	}
 
-	url := strings.Join([]string{Url, repo, "issues", fmt.Sprint(number)}, "/")
-	// url := fmt.Sprintf("%s/%s/issues/%d", Url, repo, number)
-	request, err := http.NewRequest("PATCH", url, bytes.NewBuffer(requestBody))
+	url := strings.Join([]string{Url, repo, "issues"}, "/")
+	// url := fmt.Sprintf("%s/%s/issues", Url, repo)
+	request, err := http.NewRequest("POST", url, bytes.NewBuffer(requestBody))
 	if err != nil {
 		return nil, fmt.Errorf("%v", err)
 	}
@@ -37,13 +37,15 @@ func Update(number int, repo string, data map[string]string, token string) (*Iss
 	if err != nil {
 		return nil, fmt.Errorf("%v", err)
 	}
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("response error\t%d", resp.StatusCode)
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusCreated {
+		return nil, fmt.Errorf("response error: %v", resp.StatusCode)
 	}
 
 	var result Issue
 	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
-		return nil, fmt.Errorf("%v", err)
+		return nil, err
 	}
 	return &result, nil
 }

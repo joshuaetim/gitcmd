@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"gopl/ch4/gitcmd/cli"
+	// "gopl/ch4/gitcmd/cli"
 	"log"
 )
 
@@ -18,7 +18,7 @@ func getIssue(number int) {
 	repo := fetchRepo()
 	// end repo fetch
 
-	result, err := cli.Retrieve(number, repo)
+	result, err := Retrieve(number, repo)
 	if err != nil {
 		log.Fatal("Error in retrieving: ", err)
 	}

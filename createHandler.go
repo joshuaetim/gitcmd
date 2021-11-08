@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"gopl/ch4/gitcmd/cli"
+	// "gopl/ch4/gitcmd/cli"
 	"log"
 	"os"
 )
@@ -37,7 +37,7 @@ func createIssue(title, body, token string) {
 		log.Fatal("error: title field is required")
 	}
 	
-	result, err := cli.Create(repo, data, token)
+	result, err := Create(repo, data, token)
 	if err != nil {
 		log.Fatal(err)
 	}
